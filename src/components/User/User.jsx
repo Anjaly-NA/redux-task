@@ -16,9 +16,9 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     flexDirection: "column",
-    minHeight:200,
-    height:200,
-    overflow:'auto'
+    minHeight: 200,
+    height: 200,
+    overflow: "auto",
   },
   container: {
     flexGrow: 1,
@@ -32,7 +32,7 @@ const User = ({ fetchUser, userData, userLoading, userError }) => {
   const classes = useStyles();
   useEffect(() => {
     fetchUser();
-  }, []); //empty array to call fetchUsers only once
+  }, [fetchUser]); //empty array to call fetchUsers only once
   return userLoading ? (
     <h5>loading</h5>
   ) : userError ? (
