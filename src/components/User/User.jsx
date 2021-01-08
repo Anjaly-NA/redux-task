@@ -9,15 +9,23 @@ import Typography from "@material-ui/core/Typography";
 import { connect } from "react-redux";
 import { fetchUsers } from "../../redux";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     width: 275,
     textAlign: "center",
     display: "flex",
     alignItems: "center",
     flexDirection: "column",
+    minHeight:200,
+    height:200,
+    overflow:'auto'
   },
-});
+  container: {
+    flexGrow: 1,
+    overflow: "hidden",
+    padding: theme.spacing(5, 15),
+  },
+}));
 
 const User = ({ fetchUser, userData, userLoading, userError }) => {
   //fetchUsers function is destructured from the props
@@ -30,25 +38,27 @@ const User = ({ fetchUser, userData, userLoading, userError }) => {
   ) : userError ? (
     <h4>error {userError}</h4>
   ) : (
-    <Grid container spacing={3}>
-      {userData.map((user, index) => (
-        <Grid item>
-          <Card className={classes.root}>
-            <CardContent>
-              <Typography color="textPrimary" variant="h5">
-                User : {index + 1}
-              </Typography>
-              <Typography variant="h4">{user.name} </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small" variant="contained" color="primary">
-                {user.username}
-              </Button>
-            </CardActions>
-          </Card>
-        </Grid>
-      ))}
-    </Grid>
+    <div className={classes.container}>
+      <Grid container spacing={3}>
+        {userData.map((user, index) => (
+          <Grid item xs={4}>
+            <Card className={classes.root}>
+              <CardContent>
+                <Typography color="textPrimary" variant="h5">
+                  User : {index + 1}
+                </Typography>
+                <Typography variant="h4">{user.name} </Typography>
+              </CardContent>
+              <CardActions>
+                <Button size="small" variant="contained" color="primary">
+                  {user.username}
+                </Button>
+              </CardActions>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    </div>
   );
 };
 const mapStateToProps = (state) => {
