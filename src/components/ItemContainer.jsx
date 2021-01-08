@@ -5,7 +5,7 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import { countMinus } from "../redux";
+import { countMinus, numberMinus } from "../redux";
 import { connect } from "react-redux";
 
 const useStyles = makeStyles({
@@ -25,7 +25,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Container = (props) => {
+const ItemContainer = (props) => {
   const classes = useStyles();
   return (
     <Card className={classes.root}>
@@ -33,14 +33,14 @@ const Container = (props) => {
         <Typography color="textPrimary" variant="h5">
           Redux
         </Typography>
-        <Typography variant="h4">Count is :  {props.count}</Typography>
+        <Typography variant="h4">Item : {props.item}</Typography>
       </CardContent>
       <CardActions>
         <Button
           size="small"
           variant="contained"
           color="primary"
-          onClick={props.countMinus}
+          onClick={props.minusItem}
         >
           Update
         </Button>
@@ -48,10 +48,18 @@ const Container = (props) => {
     </Card>
   );
 };
-const mapStateToProps = (state) => {
-  return { count: state.countRed.count };
+const mapStateToProps = (state, ownProps) => {
+  const itemState = ownProps.count
+    ? state.countRed.count
+    : state.numberRed.number;
+  return {
+    item: itemState,
+  };
 };
-const mapDispatchToProps = (dispatch) => {
-  return { countMinus: () => dispatch(countMinus()) };
+const mapDispatchToProps = (dispatch, ownProps) => {
+  const dispatchFunction = ownProps.count
+    ? () => dispatch(countMinus())
+    : () => dispatch(numberMinus());
+  return { minusItem: dispatchFunction };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Container);
+export default connect(mapStateToProps, mapDispatchToProps)(ItemContainer);

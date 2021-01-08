@@ -5,8 +5,8 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import { useSelector, useDispatch } from "react-redux";
 import { countMinus } from "../redux";
-import { connect } from "react-redux";
 
 const useStyles = makeStyles({
   root: {
@@ -25,22 +25,24 @@ const useStyles = makeStyles({
   },
 });
 
-const Container = (props) => {
+const HooksContainer = (props) => {
+  const count = useSelector((state) => state.countRed.count);
+  const dispatch = useDispatch();
   const classes = useStyles();
   return (
     <Card className={classes.root}>
       <CardContent>
         <Typography color="textPrimary" variant="h5">
-          Redux
+          Redux Hook
         </Typography>
-        <Typography variant="h4">Count is :  {props.count}</Typography>
+        <Typography variant="h4">Count is : {count}</Typography>
       </CardContent>
       <CardActions>
         <Button
           size="small"
           variant="contained"
           color="primary"
-          onClick={props.countMinus}
+          onClick={() => dispatch(countMinus())}
         >
           Update
         </Button>
@@ -48,10 +50,12 @@ const Container = (props) => {
     </Card>
   );
 };
-const mapStateToProps = (state) => {
-  return { count: state.countRed.count };
-};
-const mapDispatchToProps = (dispatch) => {
-  return { countMinus: () => dispatch(countMinus()) };
-};
-export default connect(mapStateToProps, mapDispatchToProps)(Container);
+export default HooksContainer;
+
+// const mapStateToProps = (state) => {
+//   return { count: state.count };
+// };
+// const mapDispatchToProps = (dispatch) => {
+//   return { countMinus: () => dispatch(countMinus()) };
+// };
+// export default connect(mapStateToProps, mapDispatchToProps)(HooksContainer);
